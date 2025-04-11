@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -15,7 +16,9 @@ export class UserListComponent implements OnInit {
   searchText: string = '';
 
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     const storedUsers = localStorage.getItem('users');
@@ -47,19 +50,23 @@ export class UserListComponent implements OnInit {
     this.filteredUsers = this.users.filter(user =>
       user.name.toLowerCase().includes(text) || user.email.toLowerCase().includes(text)
     );
-    this.page = 1; // reset to first page
+    this.page = 1;
     this.updatePagedUsers();
   }
   
   clearSearch() {
     this.searchText = '';
     this.filteredUsers = [...this.users];
-    this.page = 1; // reset to first page
+    this.page = 1;
     this.updatePagedUsers();
   }
 
   get totalPages(): number {
     return Math.ceil(this.filteredUsers.length / this.pageSize) || 1;
+  }
+
+  editUser(user: any): void {
+    this.router.navigate(['/add-user'], { state: { user } });
   }
   
 }

@@ -10,7 +10,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { NgApexchartsModule } from 'ng-apexcharts';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
 
@@ -32,7 +33,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     ToastrModule.forRoot(),
-    NgApexchartsModule
+    NgApexchartsModule,
+    BrowserAnimationsModule,
+    NgbTooltipModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

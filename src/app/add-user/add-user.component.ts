@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent implements OnInit {
+  isEditMode: boolean = false;
 
   constructor(
     private location: Location,
@@ -26,8 +27,12 @@ export class AddUserComponent implements OnInit {
   get form() {
     return this.userForm.controls;
   }
-
   ngOnInit(): void {
+    const navState = history.state;
+    if (navState.user) {
+      this.isEditMode = true;
+      this.userForm.patchValue(navState.user);
+    }
   }
 
   goBack() {
@@ -49,5 +54,25 @@ export class AddUserComponent implements OnInit {
       this.userForm.markAllAsTouched();
     }
   }
+
+  onUpdate() {
+    if (this.userForm.valid) {
+      const updatedUser = this.userForm.value;
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+  
+      const index = users.findIndex((u: any) => u.email === updatedUser.email);
+      if (index !== -1) {
+        users[index] = updatedUser;
+        localStorage.setItem('users', JSON.stringify(users));
+        this.toastr.success('User updated successfully!');
+        this.router.navigate(['/user-list']);
+      } else {
+        this.toastr.error('User not found!');
+      }
+    } else {
+      this.userForm.markAllAsTouched();
+    }
+  }
+  
 
 }
