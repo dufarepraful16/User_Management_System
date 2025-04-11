@@ -26,3 +26,8 @@ body {
     border-radius: 50%;
     object-fit: cover;
   }
+
+  .scrollable-table {
+    max-height: 400px;
+    overflow-y: auto;
+  }
